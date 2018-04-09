@@ -1,0 +1,22 @@
+{
+  "name": "read-csv",
+  "version": "1.0.0",
+  "description": "\"# read-csv\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/udhaymanhas/read-csv.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/udhaymanhas/read-csv/issues"
+  },
+  "homepage": "https://github.com/udhaymanhas/read-csv#readme",
+  "dependencies": {
+    "yargs": "^11.0.0"
+  }
+}
