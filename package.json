@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/udhaymanhas/read-csv#readme",
   "dependencies": {
+    "fast-csv": "^2.4.1",
     "yargs": "^11.0.0"
   }
 }
