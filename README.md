@@ -1,5 +1,5 @@
 # Prerequisite
-node
+[Nodejs](https://nodejs.org/en/)
 
 # Install
 Download the repositry, go to repositry and run
