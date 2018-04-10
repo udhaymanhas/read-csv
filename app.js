@@ -21,14 +21,18 @@ const argv = yargs
 var command = process.argv[2];
 
 if(command === 'subscribers'){
-  var lost = csv.getLost(argv.month);
-  var gained = csv.getGained(argv.month);
-
-  console.log('==Month== ', argv.month);
-  console.log('G: ', gained);
-  console.log('L: ', lost);
+  argv.month = argv.month.toLowerCase();
+  console.log('>Month: ', argv.month);
+  csv.getLost(argv.month).then((lost)=>{
+    console.log('Subscribers Lost: ', lost);
+  });
+  csv.getGained(argv.month).then((gained)=>{
+    console.log('Subscribers Gained: ', gained);
+  });
 }
 else if (command === 'active-subscribers'){
+  argv.month = argv.month.toLowerCase();
+
   var disruptor = csv.getDivision(argv.month, 'Disruptor');
   var liberator = csv.getDivision(argv.month, 'Liberator');
   var GameChanger = csv.getDivision(argv.month, 'GameChanger');
