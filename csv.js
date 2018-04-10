@@ -1,14 +1,41 @@
 const months = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov', 'dec'];
 
-var fs = require("fs");
-var csv = require("fast-csv");
+const request = require('request');
+const fs = require("fs");
+const csv = require("fast-csv");
+const fileName = 'data.csv';
+
+var fetchCsv = () => {
+  var file = fs.createWriteStream(fileName);
+
+  return new Promise((resolve, reject) => {
+    request('https://www.newslaundry.com/sample-data/sample-subscribers.csv',(err, res, body) => {
+      if(err){
+        reject('Eror Fetching From URL');
+      }
+    }).pipe(file);
+
+    file.on("finish", () => { resolve(true) });
+    file.on("error", (e) => {reject({msg:'Error writing the fetched file',err:e})});
+  });
+}
 
 var readCsv = (processData, end) => {
-  var stream = fs.createReadStream("test.csv");
-  csv
-   .fromStream(stream, {headers : true,headers : ["email", "division", "duration", "start", "end"]})
-   .on("data", processData)
-   .on("end", end);
+  fetchCsv()
+  .then((res)=>{
+    if(res){
+      var stream = fs.createReadStream(fileName);
+      csv
+       .fromStream(stream, {headers : true,headers : ["email", "division", "duration", "start", "end"]})
+       .on("data", processData)
+       .on("end", end);
+    }
+  })
+  .catch((e) => {
+    console.log(e);
+  });
+
+
 }
 
 var getLost = (month) => {
