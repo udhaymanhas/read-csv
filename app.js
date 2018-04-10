@@ -1,5 +1,5 @@
 const yargs = require('yargs');
-
+const fs = require("fs");
 const csv = require('./csv.js');
 
 const monthOptions = {
@@ -7,8 +7,16 @@ const monthOptions = {
   demand: true,
   alias: 'm'
 }
+const urlOptions = {
+  describe: 'Url where csv is hosted',
+  demand: true,
+  alias: 'u'
+}
 
 const argv = yargs
+      .command('setFile',' >Set CSV file url',{
+        url: urlOptions
+      })
       .command('subscribers',' >Get total gain/lost subscriptions',{
         month: monthOptions
       })
@@ -20,6 +28,10 @@ const argv = yargs
 
 var command = process.argv[2];
 
+if(command === 'setFile'){
+  fs.writeFileSync('url.json', JSON.stringify({"url":argv.url}));
+}
+else
 if(command === 'subscribers'){
   argv.month = argv.month.toLowerCase();
   console.log('>Month: ', argv.month);

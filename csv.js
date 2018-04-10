@@ -7,9 +7,10 @@ const fileName = 'data.csv';
 
 var fetchCsv = () => {
   var file = fs.createWriteStream(fileName);
+  var meta = JSON.parse(fs.readFileSync('url.json'));
 
   return new Promise((resolve, reject) => {
-    request('https://www.newslaundry.com/sample-data/sample-subscribers.csv',(err, res, body) => {
+    request(meta.url, (err, res, body) => {
       if(err){
         reject('Eror Fetching From URL');
       }
