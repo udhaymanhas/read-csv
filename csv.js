@@ -4,9 +4,7 @@ var fs = require("fs");
 var csv = require("fast-csv");
 
 var readCsv = (processData, end) => {
-
   var stream = fs.createReadStream("test.csv");
-
   csv
    .fromStream(stream, {headers : true,headers : ["email", "division", "duration", "start", "end"]})
    .on("data", processData)
@@ -15,8 +13,6 @@ var readCsv = (processData, end) => {
 
 var getLost = (month) => {
   var currentMonth = month;
-  // var monthIndex = months.indexOf(month);
-  // var previousMonth = months[monthIndex-1];
   var totalEnded = 0;
 
   return new Promise((resolve, reject) => {
@@ -32,9 +28,8 @@ var getLost = (month) => {
 
     readCsv(processData, end); // read cv and process data according to defined here
   });
-
-
 }
+
 var getGained = (month) => {
   var currentMonth = month;
   var totalStarted = 0;
@@ -53,9 +48,31 @@ var getGained = (month) => {
     readCsv(processData, end); // read cv and process data according to defined here
   });
 }
+
 var getDivision = (month, division) => {
-  readCsv();
-  return month;
+  var currentMonth = month.toLowerCase();
+  var currentDivision = division.toLowerCase();
+  var activeSubscribers = 0;
+
+  return new Promise((resolve, reject) => {
+    var processData = (data) => {
+      if(data.division.toLowerCase() == currentDivision){
+        //find if the subs is active or not.
+        var subStartMonth = data.start.toLowerCase().split('/')[1];
+        var subEndMonth = data.end.toLowerCase().split('/')[1];
+
+        if((months.indexOf(subStartMonth) <= months.indexOf(currentMonth)) && (months.indexOf(subEndMonth) >= months.indexOf(currentMonth))){
+          activeSubscribers++;
+        }
+      }
+    };
+
+    var end = (data) => {
+      resolve(activeSubscribers)
+    };
+
+    readCsv(processData, end); // read cv and process data according to defined here
+  });
 }
 
 module.exports = {

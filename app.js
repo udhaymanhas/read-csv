@@ -32,15 +32,16 @@ if(command === 'subscribers'){
 }
 else if (command === 'active-subscribers'){
   argv.month = argv.month.toLowerCase();
-
-  var disruptor = csv.getDivision(argv.month, 'Disruptor');
-  var liberator = csv.getDivision(argv.month, 'Liberator');
-  var GameChanger = csv.getDivision(argv.month, 'GameChanger');
-
-  console.log('==Month== ', argv.month);
-  console.log('Disruptor: ', disruptor);
-  console.log('Liberator: ', liberator);
-  console.log('GameChanger: ', GameChanger);
+  console.log('>Month: ', argv.month);
+  csv.getDivision(argv.month, 'Disruptor').then((active) => {
+    console.log('Disruptor: ', active);
+  });
+  csv.getDivision(argv.month, 'Liberator').then((active) => {
+    console.log('Liberator: ', active);
+  });
+  csv.getDivision(argv.month, 'GameChanger').then((active) => {
+    console.log('GameChanger: ', active);
+  });
 }
 else {
   console.log('Command not recognized');
